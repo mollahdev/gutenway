@@ -1,15 +1,22 @@
 /**
- * WordPress dependencies
+ * External dependencies
  */
-import { getBlockType, registerBlockType } from '@wordpress/blocks';
+import { getBlockType, registerBlockType, getCategories, setCategories } from '@wordpress/blocks';
 import { __ } from '@wordpress/i18n';
 
 /**
  * Internal dependencies
  */
+import './plugins'
 import './blocks.scss';
-import './utils/block-category'
 
+setCategories( [
+	{
+		slug: 'gutenway',
+		title: __( 'Gutenway', 'gutenway' ),
+	},
+	...getCategories(),
+] );
 /**
  * Register all the blocks found
  */

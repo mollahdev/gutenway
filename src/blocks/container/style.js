@@ -1,16 +1,4 @@
-/**
- * External dependencies
- */
-// import {
-// 	Advanced,
-// 	Alignment,
-// 	BlockDiv,
-// 	Column,
-// 	ContainerDiv,
-// 	EffectsAnimations,
-// 	Transform,
-// } from '~stackable/block-components'
-import { BlockStyleGenerator } from '@/components'
+import { GutenStyleGenerator } from '@/plugins/guten-css'
 
 const callbacks = {
 	marginTop: {
@@ -29,40 +17,41 @@ const callbacks = {
 	},
 }
 
-const blockStyles = new BlockStyleGenerator({
-	versionAdded: '3.0.0',
-	versionDeprecated: '',
-})
+const blockStyles = new GutenStyleGenerator()
 
 blockStyles.addBlockStyles( 'columnSpacing', [ {
-	selector: '.%s-container',
+	selector: '.container',
 	styleRule: 'marginTop',
 	attrName: 'columnSpacing',
 	responsive: 'all',
+	format: '%spx',
 	hasUnits: 'px',
 	valuePreCallback: callbacks.marginTop.valuePreCallback,
 },
 {
-	selector: '.%s-container',
+	selector: '.container',
 	styleRule: 'marginRight',
 	attrName: 'columnSpacing',
 	responsive: 'all',
+	format: '%spx',
 	hasUnits: 'px',
 	valuePreCallback: callbacks.marginRight.valuePreCallback,
 },
 {
-	selector: '.%s-container',
+	selector: '.container',
 	styleRule: 'marginBottom',
 	attrName: 'columnSpacing',
 	responsive: 'all',
+	format: '%spx',
 	hasUnits: 'px',
 	valuePreCallback: callbacks.marginBottom.valuePreCallback,
 },
 {
-	selector: '.%s-container',
+	selector: '.container',
 	styleRule: 'marginLeft',
 	attrName: 'columnSpacing',
 	responsive: 'all',
+	format: '%spx',
 	hasUnits: 'px',
 	valuePreCallback: callbacks.marginLeft.valuePreCallback,
 },
@@ -73,56 +62,43 @@ blockStyles.addBlockStyles( 'columnSpacing', [ {
 
 {
 	renderIn: 'edit',
-	selector: '.%s-container',
+	selector: '.container',
 	styleRule: '--column-spacing-top',
 	attrName: 'columnSpacing',
 	responsive: 'all',
+	format: '%spx',
 	hasUnits: 'px',
 	valuePreCallback: callbacks.marginTop.valuePreCallback,
 },
 {
 	renderIn: 'edit',
-	selector: '.%s-container',
+	selector: '.container',
 	styleRule: '--column-spacing-right',
 	attrName: 'columnSpacing',
 	responsive: 'all',
+	format: '%spx',
 	hasUnits: 'px',
 	valuePreCallback: callbacks.marginRight.valuePreCallback,
 },
 {
 	renderIn: 'edit',
-	selector: '.%s-container',
+	selector: '.container',
 	styleRule: '--column-spacing-bottom',
 	attrName: 'columnSpacing',
 	responsive: 'all',
+	format: '%spx',
 	hasUnits: 'px',
 	valuePreCallback: callbacks.marginBottom.valuePreCallback,
 },
 {
 	renderIn: 'edit',
-	selector: '.%s-container',
+	selector: '.container',
 	styleRule: '--column-spacing-left',
 	attrName: 'columnSpacing',
 	responsive: 'all',
+	format: '%spx',
 	hasUnits: 'px',
 	valuePreCallback: callbacks.marginLeft.valuePreCallback,
 } ] )
-
-// Alignment.addStyles( blockStyles, {
-// 	columnAlignSelectorEditCallback: ( getAttributes, attributes, clientId ) => `[data-block="${ clientId }"]`,
-// } )
-// BlockDiv.addStyles( blockStyles )
-// Column.addStyles( blockStyles )
-// ContainerDiv.addStyles( blockStyles, {
-// 	sizeSelector: '.%s-container',
-// 	sizeHorizontalAlignRule: 'margin',
-// 	sizeVerticalAlignRule: 'justifyContent',
-// 	sizeVerticalAlignSelector: '.%s-inner-blocks',
-// 	// sizeVerticalAlignSelectorEdit: '.%s-inner-blocks > .block-editor-inner-blocks > .block-editor-block-list__layout',
-// 	// sizeVerticalAlignSelectorEdit: '.%s-inner-blocks',
-// } )
-// Advanced.addStyles( blockStyles )
-// Transform.addStyles( blockStyles )
-// EffectsAnimations.addStyles( blockStyles )
 
 export default blockStyles

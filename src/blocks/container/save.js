@@ -1,9 +1,11 @@
-import { RichText } from '@wordpress/block-editor';
+import { BlockDiv } from '@/block-components';
 
-export default function save( { attributes } ) {
+export default function save( props ) {
+	const { attributes } = props;
+	
 	return (
-		<div>
+		<BlockDiv.Content attributes={attributes}>
             <h2>Hello World</h2>
-        </div>
+        </BlockDiv.Content>
 	);
 }

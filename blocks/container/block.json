@@ -21,17 +21,13 @@
 	},
 	"supports": {
 		"html": false,
-		"anchor": true,
-		"customClassName": true,
-		"className": true
+		"anchor": false,
+		"customClassName": false,
+		"className": false
 	},
-	"example": {},
-	"editorScript": "file:./index.js",
-	"styleVariationsEndpoint": "gutenway/v1/container-style-variations",
 	"keywords": [
 		"container",
 		"gutenway",
 		"section"
-	],
-	"textdomain": "gutenway"
+	]
 }
