@@ -8,7 +8,7 @@ import { applyFilters } from '@wordpress/hooks';
  */
 import edit from './edit';
 import save from './save';
-import metadata from './../../../blocks/container/block.json';
+import metadata from '@blocks/container/block.json';
 
 export const settings = applyFilters( 'gutenway.block.metadata', {
 	...metadata,

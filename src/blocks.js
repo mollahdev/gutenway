@@ -8,6 +8,7 @@ import { __ } from '@wordpress/i18n';
  * Internal dependencies
  */
 import './blocks.scss';
+import './utils/block-category'
 
 /**
  * Register all the blocks found

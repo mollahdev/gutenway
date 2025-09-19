@@ -20,4 +20,10 @@ module.exports = {
 		filename: '[name].js',
 		clean: false,
 	},
+	resolve: {
+		alias: {
+			'@': path.resolve( __dirname, './src' ),
+			'@blocks': path.resolve( __dirname, './blocks' ),
+		},
+	},
 };

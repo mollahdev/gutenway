@@ -1,0 +1,14 @@
+{
+	"compilerOptions": {
+		"baseUrl": ".",
+		"paths": {
+			"@wordpress/*": ["./node_modules/@wordpress/*"],
+			"@/*": [ "./src/*" ],
+			"@blocks/*": [ "./blocks/*" ]
+		}
+	},
+	"include": [
+		"./src/**/*",
+		"./blocks/**/*"
+	],
+}

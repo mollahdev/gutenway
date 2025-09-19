@@ -21,7 +21,7 @@ class Scripts {
         // Backend editor scripts
         $dependencies = Gutenway::include_once('build/blocks.asset.php');
 
-        wp_register_script( 
+        wp_enqueue_script( 
             'gutenway-block-editor', 
             Gutenway::url('build/blocks.js'), 
             $dependencies['dependencies'], 
@@ -30,7 +30,7 @@ class Scripts {
         );
 
         // Backend editor only styles.
-        wp_register_style(
+        wp_enqueue_style(
             'gutenway-block-editor',
             Gutenway::url('build/blocks.css'),
             ['wp-components'],

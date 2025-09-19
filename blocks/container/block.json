@@ -4,6 +4,30 @@
 	"description": "A container block for grouping content.",
 	"category": "gutenway",
 	"icon": "columns",
+	"attributes": {
+		"uniqueId": {
+			"type": "string",
+			"default": ""
+		},
+		"columnSpacing": {
+			"type": "object",
+			"default": {
+				"top": "10",
+				"right": "20",
+				"bottom": "10",
+				"left": "20"
+			}
+		}
+	},
+	"supports": {
+		"html": false,
+		"anchor": true,
+		"customClassName": true,
+		"className": true
+	},
+	"example": {},
+	"editorScript": "file:./index.js",
+	"styleVariationsEndpoint": "gutenway/v1/container-style-variations",
 	"keywords": [
 		"container",
 		"gutenway",
