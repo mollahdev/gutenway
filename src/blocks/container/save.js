@@ -5,7 +5,7 @@ export default function save( props ) {
 	
 	return (
 		<BlockDiv.Content attributes={attributes}>
-            <h2 className='container'>Hello World</h2>
+            <h2 className='container'>Hello World 2</h2>
         </BlockDiv.Content>
 	);
 }

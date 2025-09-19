@@ -29,36 +29,23 @@ class Gutenway {
         return trailingslashit( plugins_url( '/', __FILE__ ) ) . $file;
     }
 
-    public static function site_url( $slug = '' ) {
-        return get_site_url() . '/' . $slug;
-    }
-
     public static function admin_url( $route = '' ) {
         return esc_url( admin_url( 'admin.php?page=' . 'gutenway' ) . $route );
     }
 
-    public static function require( $file_or_dir = '', $path_only = false ) 
+    public static function path( $file = '' ) 
     {
-        if( !$path_only ) {
-            require trailingslashit( plugin_dir_path( __FILE__ ) ) . $file_or_dir;
-        } else {
-            return trailingslashit( plugin_dir_path( __FILE__ ) ) . $file_or_dir;
-        }
+        return trailingslashit( plugin_dir_path( __FILE__ ) ) . $file;
     }
 
-    public static function part( $file = '', $args = []) {
-        $file_path = self::require( $file . '.php', true );
-        if( file_exists( $file_path ) ) {
-            include( $file_path );
-        }
+    public static function require( $file_or_dir = '' ) 
+    {
+        require self::path( $file_or_dir );
     }
 
-    public static function include_once( $file = '', $no_return = false ) {
-        if( !$no_return ) {
-            return include_once( self::require( $file, true ) );
-        } else {
-            include_once( self::require( $file, true ) );
-        }
+    public static function include_once( $file_or_dir = '' ) 
+    {
+        return include_once self::path( $file_or_dir );
     }
 
     private function boot() {
@@ -76,8 +63,8 @@ class Gutenway {
         $this::require('autoloader.php');
         $loader = new AutoLoader();
         $loader->register();
-        $loader->addNamespace( 'Gutenway\Blocks', $this::require('blocks', true) );     
-        $loader->addNamespace( 'Gutenway\App', $this::require('app', true) );
+        $loader->addNamespace( 'Gutenway\Blocks', $this::path('blocks') );     
+        $loader->addNamespace( 'Gutenway\App', $this::path('app') );
     }
 }
 
