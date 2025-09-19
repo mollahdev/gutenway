@@ -53,7 +53,7 @@ export const useBlockCssGenerator = props => {
 			editorMode: false
 		} )
 
-		attributes.generatedCss = css
+		attributes.css = css
 	}, [ attributes ] )
 
 	return editCss

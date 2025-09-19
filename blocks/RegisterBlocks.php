@@ -11,39 +11,19 @@ class RegisterBlocks {
 	 * Register block 
 	 */ 
 	const block_list = [
-		// 'column',
-		// 'proposal-template',
-		// 'template-banner',
+		'gutenway/container'
 	];
 
 	public $config = [];
 
     public function __construct()
     {
-        add_action( 'init', [$this, 'register_blocks'] );
+        add_action( 'init', [$this, 'register_blocks'] );;
+		if ( !is_admin() && !wp_is_json_request() ) {
+			add_filter( 'the_content', array( $this, 'load_block_css' ), 10, 2 );
+		}
     }
 
-	/**
-	 * Dynamic block wrapper markup 
-	 */ 
-	public function block_dynamic_render( $attr ) 
-	{
-
-		$adv_id			= isset($attr['adv_id']) ? $attr['adv_id'] : '';
-		$adv_classes	= isset($attr['adv_classes']) ? $attr['adv_classes'] : '';
-		$client_name	= isset($attr['clientName']) ? $attr['clientName'] : '';
-		$client_id		= isset($attr['clientId']) ? $attr['clientId'] : '';
-
-		ob_start(); ?>
-			<div 
-				id="<?php echo esc_attr($adv_id) ?>"
-				data-type="<?php echo esc_attr($client_name) ?>" 
-				class="gutenway-block-wrapper element-<?php echo esc_attr($client_id) ?> <?php echo esc_attr($adv_classes) ?>"
-			>
-				<?php include($this->config['block_screen_file'])?>
-			</div>
-		<?php return ob_get_clean();
-	}
 	/**
 	 * Register block
 	 */ 
@@ -51,33 +31,20 @@ class RegisterBlocks {
     {
 
         $block_list_metadata = $this->get_metadata_by_folders( $this::block_list );
-
 		foreach ( $block_list_metadata as $metadata ) {
-
 			$registry = \WP_Block_Type_Registry::get_instance();
 			if ( $registry->is_registered( $metadata['name'] ) ) {
 				$registry->unregister( $metadata['name'] );
 			}
 
-			/**
-			 * assign block scripts handler 
-			 */ 
-			$register_options = array(
-				'editor_script' => 'gutenway-block-editor', // Editor scripts.
-				'editor_style'  => 'gutenway-block-editor', // Editor styles.
-			);
-			
-			/**
-			 * add dynamic block attributes
-			 */ 
-			if( isset($metadata['serverRender']) && $metadata['serverRender'] ) {
-				$this->config['block_screen_file'] 		= $metadata['block_screen_file'];
-				$register_options['render_callback'] 	= [$this, 'block_dynamic_render'];
-			}
-
-			register_block_type_from_metadata( $metadata['block_json_file'], $register_options );
+			register_block_type_from_metadata( $metadata['block_json_file'], array() );
 		}
     }
+
+	private function extract_block_name( $block ) {
+		$parts = explode( '/', $block );
+		return end( $parts );
+	}
 
     public function get_metadata_by_folders( $block_folders ) 
     {
@@ -90,19 +57,49 @@ class RegisterBlocks {
 		}
 
 		foreach ( $block_folders as $folder_name ) {
+			$folder_name		= $this->extract_block_name( $folder_name );
 			$block_json_file	= $blocks_dir . '/' . $folder_name . '/block.json';
-			$block_screen_file	= $blocks_dir . '/' . $folder_name . '/screen.php';
+
 			if ( ! file_exists( $block_json_file ) ) {
 				continue;
 			}
 
 			$metadata = json_decode( file_get_contents( $block_json_file ), true );
 			array_push( $blocks, array_merge( $metadata, array( 
-				'block_json_file'	=> $block_json_file,
-				'block_screen_file' => $block_screen_file
+				'block_json_file'	=> $block_json_file
 			) ) );
 		}
 
 		return $blocks;
+	}
+
+	public static function parse_blocks( $blocks, &$allBlocks ) {
+		foreach ( $blocks as $block ) {
+			if ( isset( $block['blockName'] ) && strpos( $block['blockName'], 'gutenway/' ) !== false ) {
+				array_push( $allBlocks, $block );
+			}
+
+			self::parse_blocks( $block['innerBlocks'], $allBlocks );
+		}
+	}
+
+	public function load_block_css( $content ) {
+		$blocks = parse_blocks( get_the_content() );
+		$allBlocks = array();
+		self::parse_blocks( $blocks, $allBlocks );
+
+		$stylesheet = '';
+		foreach ( $allBlocks as $block ) {
+			$css = isset( $block['attrs']['css'] ) ? $block['attrs']['css'] : '';
+			$stylesheet .= $css;
+		}
+
+		if ( ! empty( $stylesheet ) ) {
+			$style_tag = '<style id="gutenway-block-styles">' . $stylesheet . '</style>';
+			add_action( 'wp_footer', function() use ( $style_tag ) {
+				echo $style_tag;
+			} );
+		}
+		return $content;
 	}
 }

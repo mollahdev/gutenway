@@ -9,6 +9,10 @@
 			"type": "string",
 			"default": ""
 		},
+		"css": {
+			"type": "string",
+			"default": ""
+		},
 		"columnSpacing": {
 			"type": "object",
 			"default": {
