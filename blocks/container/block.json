@@ -1,0 +1,13 @@
+{
+	"name": "gutenway/container",
+	"title": "Container",
+	"description": "A container block for grouping content.",
+	"category": "gutenway",
+	"icon": "columns",
+	"keywords": [
+		"container",
+		"gutenway",
+		"section"
+	],
+	"textdomain": "gutenway"
+}
