@@ -5,7 +5,10 @@ export default function save( props ) {
 	
 	return (
 		<BlockDiv.Content attributes={attributes}>
-            <h2 className='container'>Hello World 2</h2>
+			<div>
+				<h2>Ashraf New Block</h2>
+			</div>
+            <h2 className='container'>Hello World {attributes.columnSpacing.top}</h2>
         </BlockDiv.Content>
 	);
 }

@@ -10,7 +10,7 @@ import {
 } from '@/higher-order'
 import { BlockDiv } from '@/block-components'
 
-const Edit = ( props ) => {
+const edit = ( props ) => {
 	const { attributes } = props;
 
 	const blockCss = useBlockCssGenerator( {
@@ -35,4 +35,4 @@ const Edit = ( props ) => {
 export default compose(
 	withBlockAttributeContext,
 	withBlockStyleContext( blockStyles ),
-)( Edit )
+)( edit )

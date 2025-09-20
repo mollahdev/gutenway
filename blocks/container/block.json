@@ -4,7 +4,7 @@
 	"version": "1.0.0",
 	"name": "gutenway/container",
 	"title": "Container",
-	"description": "A container block for grouping content.",
+	"description": "Container block",
 	"category": "gutenway",
 	"icon": "columns",
 	"attributes": {
@@ -19,7 +19,7 @@
 		"columnSpacing": {
 			"type": "object",
 			"default": {
-				"top": "10",
+				"top": "30",
 				"right": "20",
 				"bottom": "10",
 				"left": "20"
@@ -28,13 +28,13 @@
 	},
 	"supports": {
 		"html": false,
-		"anchor": false,
-		"customClassName": false,
-		"className": false
+		"anchor": true
 	},
 	"keywords": [
 		"container",
 		"gutenway",
+		"columns",
+		"layout",
 		"section"
 	]
 }

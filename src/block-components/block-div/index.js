@@ -35,7 +35,7 @@ export const BlockDiv = memo( props => {
 	)
 
 	return <div
-		className={ classNames }
+		{ ...useBlockProps( { className: classNames } ) }
 		data-block-id={ attributes.uniqueId || tempUniqueId }
 	>
 		{ props.children }

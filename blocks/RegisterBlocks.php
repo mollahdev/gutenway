@@ -32,48 +32,22 @@ class RegisterBlocks {
     public function register_blocks()
     {
 
-        $block_list_metadata = $this->get_metadata_by_folders( $this::block_list );
-		foreach ( $block_list_metadata as $metadata ) {
-			$registry = \WP_Block_Type_Registry::get_instance();
-			if ( $registry->is_registered( $metadata['name'] ) ) {
-				$registry->unregister( $metadata['name'] );
+		foreach ( $this::block_list as $block ) {
+			$block_name = self::extract_block_name( $block );
+			$block_dir	= Gutenway::path('blocks/' . $block_name);
+			$block_json_file = Gutenway::path('blocks/' . $block_name . '/block.json' );
+
+			if ( ! file_exists( $block_json_file ) ) {
+				continue;
 			}
 
-			register_block_type_from_metadata( $metadata['block_json_file'], array() );
+			register_block_type( $block_dir );
 		}
     }
 
 	public static function extract_block_name( $block ) {
 		$parts = explode( '/', $block );
 		return end( $parts );
-	}
-
-    public function get_metadata_by_folders( $block_folders ) 
-    {
-		
-        $blocks = array();
-		$blocks_dir = Gutenway::path('blocks');
-		
-        if ( ! file_exists( $blocks_dir ) ) {
-			return $blocks;
-		}
-
-		foreach ( $block_folders as $folder_name ) {
-			$folder_name		= self::extract_block_name( $folder_name );
-			$block_json_file	= $blocks_dir . '/' . $folder_name . '/block.json';
-
-			if ( ! file_exists( $block_json_file ) ) {
-				continue;
-			}
-
-			$metadata = json_decode( file_get_contents( $block_json_file ), true );
-
-			array_push( $blocks, array_merge( $metadata, array( 
-				'block_json_file'	=> $block_json_file,
-			) ) );
-		}
-
-		return $blocks;
 	}
 
 	public static function parse_blocks( $blocks, &$allBlocks ) {
