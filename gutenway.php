@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: Gutenway - A Gutenberg Blocks Plugin for WordPress
+Plugin Name: Gutenway Blocks
 Plugin URI: #
 Description: A plugins for WordPress site. It helps to build templates demo, integration pages and regular pages with Gutenberg. With highly optimized assets
 Author: Gutenway

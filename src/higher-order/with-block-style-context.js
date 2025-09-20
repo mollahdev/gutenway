@@ -9,8 +9,6 @@ const withBlockStyleContext = blockStyles => createHigherOrderComponent(
 		return (
 			<BlockStyleProvider
 				blockStyles={ blockStyles }
-				clientId={ props.clientId }
-				context={ props.context }
 			>
 				<WrappedComponent { ...props } />
 			</BlockStyleProvider>

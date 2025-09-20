@@ -12,15 +12,7 @@ import { BlockDiv } from '@/block-components'
 
 const edit = ( props ) => {
 	const { attributes } = props;
-
-	const blockCss = useBlockCssGenerator( {
-		attributes,
-		blockStyles,
-		clientId: props.clientId,
-		context: props.context,
-		setAttributes: props.setAttributes,
-		blockState: props.blockState,
-	} )
+	const blockCss = useBlockCssGenerator()
 
 	return (
 		<>

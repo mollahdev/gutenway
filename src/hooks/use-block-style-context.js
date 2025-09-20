@@ -11,13 +11,7 @@ export const useBlockStyleContext = () => {
 
 // All our blocks' Edit should be wrapped in this provider.
 export const BlockStyleProvider = props => {
-	return <BlockStyleContext.Provider value={ [
-		props.blockStyles,
-		{
-			clientId: props.clientId,
-			context: props.context,
-		},
-	] }>
+	return <BlockStyleContext.Provider value={props.blockStyles}>
 		{ props.children }
 	</BlockStyleContext.Provider>
 }

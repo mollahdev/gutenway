@@ -2,20 +2,19 @@
  * External dependencies 
  */ 
 import { useMemo, useRef } from '@wordpress/element'
+import { useBlockProps } from '@wordpress/block-editor'
 /**
  * Internal dependencies 
  */ 
 import { useQueryLoopInstanceId } from '@/utils'
-import { useRafEffect } from '@/hooks'
+import { useRafEffect, useBlockStyleContext, useBlockAttributesContext, useBlockContextContext } from '@/hooks'
 
-export const useBlockCssGenerator = props => {
-	const {
-		blockStyles,
-		clientId,
-		context,
-		attributes,
-		blockState,
-	} = props
+export const useBlockCssGenerator = () => {
+	const blockStyles = useBlockStyleContext()
+	const attributes = useBlockAttributesContext()
+	const { id: clientId } = useBlockProps()
+	const context = useBlockContextContext()
+	const blockState = 'normal'
 
 	// Generate the CSS styles.
 	const instanceId = useQueryLoopInstanceId( attributes.uniqueId )

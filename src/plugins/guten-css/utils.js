@@ -36,9 +36,9 @@ export const getMediaQuery = (devices = 'desktop', breakDesktop = 1024, breakTab
  *
  * @return {string} The block's unique class name
  */
-export const createUniqueClassId = uid => `${ uid?.substring( 0, 8 ) }`
+export const createUniqueClassId = uid => `${ uid?.substring( 0, 7 ) }`
 export const getBlockUniqueClassname = (uniqueId, clientId = '') => {
-    return `guten-${createUniqueClassId(uniqueId || clientId)}`
+    return `gway${createUniqueClassId(uniqueId || clientId)}`
 }
 
 /**
