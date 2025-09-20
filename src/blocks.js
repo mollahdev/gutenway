@@ -7,7 +7,7 @@ import { __ } from '@wordpress/i18n';
 /**
  * Internal dependencies
  */
-import './plugins'
+import './block-editor'
 import './blocks.scss';
 
 setCategories( [

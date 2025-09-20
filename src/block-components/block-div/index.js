@@ -9,8 +9,8 @@ import { useBlockProps } from '@wordpress/block-editor'
  */ 
 import { useUniqueId } from '@/hooks'
 import { useQueryLoopInstanceId } from '@/utils'
-import { getBlockUniqueClassname, createUniqueClassId } from '@/plugins/guten-css/utils'
-
+import { getBlockUniqueClassname, createUniqueClassId } from '@/block-editor/guten-css/utils'
+import { InspectorControls } from './edit'
 
 export const BlockDiv = memo( props => {
 	const {
@@ -34,12 +34,17 @@ export const BlockDiv = memo( props => {
 		]
 	)
 
-	return <div
-		{ ...useBlockProps( { className: classNames } ) }
-		data-block-id={ attributes.uniqueId || tempUniqueId }
-	>
-		{ props.children }
-	</div>
+	return (
+		<>
+			<InspectorControls />
+			<div
+				{ ...useBlockProps( { className: classNames } ) }
+				data-block-id={ attributes.uniqueId || tempUniqueId }
+			>
+				{ props.children }
+			</div>
+		</>
+	)
 } )
 
 

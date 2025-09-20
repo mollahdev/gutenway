@@ -7,7 +7,7 @@ import { dispatch, useSelect } from '@wordpress/data'
 /**
  * Internal dependencies 
  */ 
-import { createUniqueClassId } from '@/plugins/guten-css/utils'
+import { createUniqueClassId } from '@/block-editor/guten-css/utils'
 
 export const useUniqueId = ( attributes, autoApplyUniqueId = true ) => {
 	const { clientId } = useBlockEditContext()

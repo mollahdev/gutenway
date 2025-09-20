@@ -1,4 +1,4 @@
-import { GutenStyleGenerator } from '@/plugins/guten-css'
+import { GutenStyleGenerator } from '@/block-editor/guten-css'
 
 const callbacks = {
 	marginTop: {

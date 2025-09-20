@@ -1,7 +1,6 @@
 /**
  * Internal dependencies
  */
-import './store'
 import { useDeviceType } from '@/hooks'
 
 /**
@@ -11,6 +10,7 @@ import {
 	useState, useEffect, useMemo, useRef,
 } from '@wordpress/element'
 import { dispatch, useSelect } from '@wordpress/data'
+import { registerPlugin } from '@wordpress/plugins'
 
 /**
  * Gets the editor wrapper DOM element. This should be the way if you need to do
@@ -26,7 +26,7 @@ import { dispatch, useSelect } from '@wordpress/data'
  * @return {DomElement} This can be null when the editor is transitioning from
  * one device size to another.
  */
-export const EditorDom = () => {
+const EditorDom = () => {
 	const deviceType = useDeviceType()
 	const [ iframeForceUpdate, setIframeForceUpdate ] = useState( 0 )
 	const [ editorDom, setEditorDom ] = useState( null )
@@ -126,3 +126,6 @@ export const EditorDom = () => {
 	// Don't render anything.
 	return null
 }
+
+
+registerPlugin( 'gutenway-editor-dom', { render: EditorDom } )
