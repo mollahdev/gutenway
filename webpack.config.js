@@ -14,7 +14,7 @@ module.exports = {
 	...defaultConfig,
 	entry: {
 		blocks: './src/blocks.js',
-		admin: './src/admin.js',
+		admin: './src/admin.jsx',
 		dashboard: './src/dashboard.js',
 	},
 	output: {
@@ -27,12 +27,26 @@ module.exports = {
 			'@': path.resolve( __dirname, './src' ),
 			'@blocks': path.resolve( __dirname, './blocks' ),
 		},
+		fullySpecified: false,
 		extensions: [
 			'.ts',
 			'.tsx',
 			...( defaultConfig.resolve
 				? defaultConfig.resolve.extensions || [ '.js', '.jsx' ]
 				: [] ),
+		],
+	},
+	module: {
+		...defaultConfig.module,
+		rules: [
+			...defaultConfig.module.rules,
+			{
+				test: /\.m?js$/,
+				type: 'javascript/auto',
+				resolve: {
+					fullySpecified: false,
+				},
+			},
 		],
 	},
 };
