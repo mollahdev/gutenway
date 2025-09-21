@@ -1,17 +1,19 @@
 /**
  * WordPress dependencies
  */
-import { createContext, useContext } from '@wordpress/element'
+import { createContext, useContext } from '@wordpress/element';
 
-const BlockStyleContext = createContext( null )
+const BlockStyleContext = createContext( null );
 
 export const useBlockStyleContext = () => {
-	return useContext( BlockStyleContext )
-}
+	return useContext( BlockStyleContext );
+};
 
 // All our blocks' Edit should be wrapped in this provider.
-export const BlockStyleProvider = props => {
-	return <BlockStyleContext.Provider value={props.blockStyles}>
-		{ props.children }
-	</BlockStyleContext.Provider>
-}
+export const BlockStyleProvider = ( props ) => {
+	return (
+		<BlockStyleContext.Provider value={ props.blockStyles }>
+			{ props.children }
+		</BlockStyleContext.Provider>
+	);
+};

@@ -30,11 +30,5 @@
 		"html": false,
 		"anchor": true
 	},
-	"keywords": [
-		"container",
-		"gutenway",
-		"columns",
-		"layout",
-		"section"
-	]
+	"keywords": [ "container", "gutenway", "columns", "layout", "section" ]
 }

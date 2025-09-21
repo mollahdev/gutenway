@@ -1,30 +1,30 @@
 <?php
 namespace Gutenway\Blocks;
 
+use Gutenway;
+use Gutenway\App\ScriptBase;
 use Gutenway\App\Singleton;
-use Gutenway\Gutenway;
 
-class RegisterBlocks {
+class RegisterBlocks extends ScriptBase {
     use Singleton;
-	
-	/**
-	 * Register block 
-	 */ 
+
 	const block_list = [
 		'gutenway/container'
 	];
 
-	public $config = [];
-
-    public function __construct()
+    protected function __construct()
     {
         add_action( 'init', [$this, 'register_blocks'] );
+		add_action( 'enqueue_block_editor_assets', [$this, 'load_editor_assets'] );
 		add_action( 'save_post', array( $this, 'save_block_css' ), 10, 3 );
 
 		if ( !is_admin() && !wp_is_json_request() ) {
 			add_filter( 'wp_footer', array( $this, 'load_block_css' ), 10, 2 );
 		}
     }
+	public function load_editor_assets() {
+		$this->enqueue_script( 'blocks' );
+	}
 
 	/**
 	 * Register block
@@ -99,13 +99,13 @@ class RegisterBlocks {
 		$css     = get_post_meta( $post_id, '_gutenway_stylesheet', true );
 
 		if ( ! empty( $css ) ) {
-			wp_register_style( 'gutenway-blocks', false );
-			wp_enqueue_style( 'gutenway-blocks' );
-			wp_add_inline_style( 'gutenway-blocks', $css );
+			wp_register_style( 'gutenway-frontend', false );
+			wp_enqueue_style( 'gutenway-frontend' );
+			wp_add_inline_style( 'gutenway-frontend', $css );
 
 			global $wp_styles;
-			if ( isset( $wp_styles->registered['gutenway-blocks'] ) ) {
-				$wp_styles->registered['gutenway-blocks']->extra['group'] = 1; // 0 = head, 1 = footer
+			if ( isset( $wp_styles->registered['gutenway-frontend'] ) ) {
+				$wp_styles->registered['gutenway-frontend']->extra['group'] = 1; // 0 = head, 1 = footer
 			}
 		}
 	}

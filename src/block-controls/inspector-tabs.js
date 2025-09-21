@@ -1,86 +1,95 @@
 /**
  * WordPress dependencies
-*/
-import { memo, useEffect } from '@wordpress/element'
-import { createSlotFill } from '@wordpress/components'
+ */
+import { memo, useEffect } from '@wordpress/element';
+import { createSlotFill } from '@wordpress/components';
 import { select, useSelect } from '@wordpress/data';
-import { InspectorControls, useBlockEditContext } from '@wordpress/block-editor'
-import { useGlobalState } from '@/block-editor/global-state'
-import PanelAdvancedSettings from './panel-advanced-settings'
+import {
+	InspectorControls,
+	useBlockEditContext,
+} from '@wordpress/block-editor';
+import { useGlobalState } from '@/block-editor/global-state';
+import PanelAdvancedSettings from './panel-advanced-settings';
 
-const tabs = [ 'general', 'style', 'advanced' ]
-const { Slot: LayoutPanelSlot, Fill: LayoutPanelFill } = createSlotFill( 'GutenwayLayoutPanel' )
+const tabs = [ 'general', 'style', 'advanced' ];
+const { Slot: LayoutPanelSlot, Fill: LayoutPanelFill } = createSlotFill(
+	'GutenwayLayoutPanel'
+);
 
 const InspectorLayoutControls = ( { children } ) => {
-	return <InspectorControls>
-		<LayoutPanelFill>{ children }</LayoutPanelFill>
-	</InspectorControls>
-}
+	return (
+		<InspectorControls>
+			<LayoutPanelFill>{ children }</LayoutPanelFill>
+		</InspectorControls>
+	);
+};
 
 const InspectorGeneralControls = ( { children } ) => {
-	const { name } = useBlockEditContext()
-	const [ activeTab ] = useGlobalState( `tabCache-${ name }`, tabs[0] )
+	const { name } = useBlockEditContext();
+	const [ activeTab ] = useGlobalState( `tabCache-${ name }`, tabs[ 0 ] );
 
 	if ( activeTab !== 'general' ) {
-		return null
+		return null;
 	}
 
-	return <InspectorControls>{ children }</InspectorControls>
-}
+	return <InspectorControls>{ children }</InspectorControls>;
+};
 
 const InspectorStyleControls = ( { children } ) => {
-	const { name } = useBlockEditContext()
-	const [ activeTab ] = useGlobalState( `tabCache-${ name }`, tabs[0] )
+	const { name } = useBlockEditContext();
+	const [ activeTab ] = useGlobalState( `tabCache-${ name }`, tabs[ 0 ] );
 
 	if ( activeTab !== 'style' ) {
-		return null
+		return null;
 	}
 
-	return <InspectorControls>{ children }</InspectorControls>
-}
+	return <InspectorControls>{ children }</InspectorControls>;
+};
 
 const InspectorAdvancedControls = ( { children } ) => {
-	const { name } = useBlockEditContext()
-	const [ activeTab ] = useGlobalState( `tabCache-${ name }`, tabs[0] )
+	const { name } = useBlockEditContext();
+	const [ activeTab ] = useGlobalState( `tabCache-${ name }`, tabs[ 0 ] );
 
 	if ( activeTab !== 'advanced' ) {
-		return null
+		return null;
 	}
 
-	return <InspectorControls>{ children }</InspectorControls>
-}
+	return <InspectorControls>{ children }</InspectorControls>;
+};
 
 export {
 	InspectorLayoutControls,
 	InspectorGeneralControls,
 	InspectorStyleControls,
 	InspectorAdvancedControls,
-}
+};
 
 const InspectorTabs = () => {
-	const { name } = useBlockEditContext()
+	const { name } = useBlockEditContext();
 	const selectedBlock = select( 'core/block-editor' ).getSelectedBlock();
-	const [ activeTab, setActiveTab ] = useGlobalState( `tabCache-${ name }`, tabs[0] )
-	const sidebar = useSelect( select => {
-		return select( 'core/edit-post' ).isEditorSidebarOpened()
-	} )
+	const [ activeTab, setActiveTab ] = useGlobalState(
+		`tabCache-${ name }`,
+		tabs[ 0 ]
+	);
+	const sidebar = useSelect( ( select ) => {
+		return select( 'core/edit-post' ).isEditorSidebarOpened();
+	} );
 
-	
 	useEffect( () => {
-		if( !selectedBlock || !sidebar) {
-			return
+		if ( ! selectedBlock || ! sidebar ) {
+			return;
 		}
 
-		setTimeout(() => {
-			const element = document.querySelector('.editor-sidebar__panel')
-			if( selectedBlock.name.includes('gutenway/') ) {
-				element?.setAttribute('data-gutenway-tab', activeTab)
+		setTimeout( () => {
+			const element = document.querySelector( '.editor-sidebar__panel' );
+			if ( selectedBlock.name.includes( 'gutenway/' ) ) {
+				element?.setAttribute( 'data-gutenway-tab', activeTab );
 				return;
-			} 
+			}
 
-			element?.removeAttribute('data-gutenway-tab')
-		}, 100)
-	}, [ selectedBlock, sidebar, activeTab ] )
+			element?.removeAttribute( 'data-gutenway-tab' );
+		}, 100 );
+	}, [ selectedBlock, sidebar, activeTab ] );
 
 	return (
 		<>
@@ -100,9 +109,8 @@ const InspectorTabs = () => {
 					<LayoutPanelSlot />
 				</PanelAdvancedSettings>
 			</InspectorGeneralControls>
-
 		</>
-	)
-}
+	);
+};
 
-export default memo( InspectorTabs )
+export default memo( InspectorTabs );

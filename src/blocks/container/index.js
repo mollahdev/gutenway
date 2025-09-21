@@ -13,5 +13,5 @@ import metadata from '@blocks/container/block.json';
 export const settings = applyFilters( 'gutenway.block.metadata', {
 	...metadata,
 	edit,
-	save
+	save,
 } );

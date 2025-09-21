@@ -1,1 +1,1 @@
-export { useQueryLoopInstanceId } from './style-object'
+export { useQueryLoopInstanceId } from './style-object';

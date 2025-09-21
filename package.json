@@ -9,6 +9,7 @@
 		"format": "wp-scripts format"
 	},
 	"dependencies": {
+		"@emotion/styled": "^11.14.1",
 		"classnames": "^2.5.1",
 		"lodash-es": "^4.17.21",
 		"sprintf-js": "^1.1.2"

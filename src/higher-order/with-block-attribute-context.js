@@ -11,18 +11,18 @@
 /**
  * WordPress dependencies
  */
-import { createHigherOrderComponent } from '@wordpress/compose'
-import { BlockAttributesProvider } from '@/hooks'
+import { createHigherOrderComponent } from '@wordpress/compose';
+import { BlockAttributesProvider } from '@/hooks';
 
 const withBlockAttributeContext = createHigherOrderComponent(
-	WrappedComponent => props => {
+	( WrappedComponent ) => ( props ) => {
 		return (
 			<BlockAttributesProvider { ...props }>
 				<WrappedComponent { ...props } />
 			</BlockAttributesProvider>
-		)
+		);
 	},
 	'withBlockAttributeContext'
-)
+);
 
-export default withBlockAttributeContext
+export default withBlockAttributeContext;

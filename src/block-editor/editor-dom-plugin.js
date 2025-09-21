@@ -1,16 +1,14 @@
 /**
  * Internal dependencies
  */
-import { useDeviceType } from '@/hooks'
+import { useDeviceType } from '@/hooks';
 
 /**
  * WordPress dependencies
  */
-import {
-	useState, useEffect, useMemo, useRef,
-} from '@wordpress/element'
-import { dispatch, useSelect } from '@wordpress/data'
-import { registerPlugin } from '@wordpress/plugins'
+import { useState, useEffect, useMemo, useRef } from '@wordpress/element';
+import { dispatch, useSelect } from '@wordpress/data';
+import { registerPlugin } from '@wordpress/plugins';
 
 /**
  * Gets the editor wrapper DOM element. This should be the way if you need to do
@@ -27,105 +25,129 @@ import { registerPlugin } from '@wordpress/plugins'
  * one device size to another.
  */
 const EditorDom = () => {
-	const deviceType = useDeviceType()
-	const [ iframeForceUpdate, setIframeForceUpdate ] = useState( 0 )
-	const [ editorDom, setEditorDom ] = useState( null )
-	const timeout = useRef( null )
-	const interval = useRef( null )
+	const deviceType = useDeviceType();
+	const [ iframeForceUpdate, setIframeForceUpdate ] = useState( 0 );
+	const [ editorDom, setEditorDom ] = useState( null );
+	const timeout = useRef( null );
+	const interval = useRef( null );
 
 	// If in FSE, switching templates will recreate the editor.
-	const editedSitePostId = useSelect( select => {
-		return select( 'core/edit-site' )?.getEditedPostId?.()
-	} )
+	const editedSitePostId = useSelect( ( select ) => {
+		return select( 'core/edit-site' )?.getEditedPostId?.();
+	} );
 
 	// If in FSE, switching between the editor canvas and the navigation recreates the editor.
-	const currentPage = useSelect( select => {
-		return select( 'core/edit-site' )?.getPage?.()
-	} )
+	const currentPage = useSelect( ( select ) => {
+		return select( 'core/edit-site' )?.getPage?.();
+	} );
 
 	// When switching between visual editor and code editor, the editor is recreated
-	const editorMode = useSelect( select => {
-		return select( 'core/edit-site' )?.getEditorMode() || select( 'core/edit-post' )?.getEditorMode()
-	} )
+	const editorMode = useSelect( ( select ) => {
+		return (
+			select( 'core/edit-site' )?.getEditorMode() ||
+			select( 'core/edit-post' )?.getEditorMode()
+		);
+	} );
 
 	useEffect( () => {
 		// If the editor is available right away, use it.
-		const editorEl = document.querySelector( `.editor-styles-wrapper, iframe[name="editor-canvas"]` )
+		const editorEl = document.querySelector(
+			`.editor-styles-wrapper, iframe[name="editor-canvas"]`
+		);
 		if ( editorEl ) {
-			setIframeForceUpdate( v => v + 1 )
+			setIframeForceUpdate( ( v ) => v + 1 );
 		}
 
 		if ( deviceType === 'Desktop' ) {
 			// We have to wait for the editor area to load (e.g. FSE iframe takes a long time to load)
 			interval.current = setInterval( () => {
-				const editorEl = document.querySelector( `.editor-styles-wrapper, iframe[name="editor-canvas"]` )
+				const editorEl = document.querySelector(
+					`.editor-styles-wrapper, iframe[name="editor-canvas"]`
+				);
 				if ( editorEl ) {
-					clearInterval( interval.current )
-					clearTimeout( timeout.current )
-					setIframeForceUpdate( v => v + 1 )
+					clearInterval( interval.current );
+					clearTimeout( timeout.current );
+					setIframeForceUpdate( ( v ) => v + 1 );
 					// There's a chance that the editor STILL isn't ready, try again.
 					setTimeout( () => {
-						setIframeForceUpdate( v => v + 1 )
-					}, 200 )
+						setIframeForceUpdate( ( v ) => v + 1 );
+					}, 200 );
 				}
-			}, 200 )
-		} else { // Tablet or Mobile.
-			const iframeEl = document.querySelector( `iframe[name="editor-canvas"]` )
+			}, 200 );
+		} else {
+			// Tablet or Mobile.
+			const iframeEl = document.querySelector(
+				`iframe[name="editor-canvas"]`
+			);
 			if ( iframeEl ) {
-				const body = iframeEl.contentDocument.body
-				if ( body && body.querySelector( '.block-editor-block-list__layout' ) ) {
-					clearInterval( interval.current )
-					setIframeForceUpdate( v => v + 1 )
+				const body = iframeEl.contentDocument.body;
+				if (
+					body &&
+					body.querySelector( '.block-editor-block-list__layout' )
+				) {
+					clearInterval( interval.current );
+					setIframeForceUpdate( ( v ) => v + 1 );
 				} else {
-					clearTimeout( timeout.current )
+					clearTimeout( timeout.current );
 					timeout.current = setTimeout( () => {
-						const body = iframeEl.contentDocument.body
-						if ( body && body.querySelector( '.block-editor-block-list__layout' ) ) {
-							setIframeForceUpdate( v => v + 1 )
+						const body = iframeEl.contentDocument.body;
+						if (
+							body &&
+							body.querySelector(
+								'.block-editor-block-list__layout'
+							)
+						) {
+							setIframeForceUpdate( ( v ) => v + 1 );
 						}
-					}, 200 )
+					}, 200 );
 					iframeEl.onload = () => {
-						clearTimeout( timeout.current )
-						const body = iframeEl.contentDocument.body
-						if ( body && body.querySelector( '.block-editor-block-list__layout' ) ) {
-							setIframeForceUpdate( v => v + 1 )
+						clearTimeout( timeout.current );
+						const body = iframeEl.contentDocument.body;
+						if (
+							body &&
+							body.querySelector(
+								'.block-editor-block-list__layout'
+							)
+						) {
+							setIframeForceUpdate( ( v ) => v + 1 );
 						} else {
 							setTimeout( () => {
-								setIframeForceUpdate( v => v + 1 )
-							}, 200 )
+								setIframeForceUpdate( ( v ) => v + 1 );
+							}, 200 );
 						}
-					}
+					};
 				}
 			}
 		}
 
 		return () => {
-			clearInterval( interval.current )
-			clearTimeout( timeout.current )
-		}
-	}, [ deviceType, editorMode, editedSitePostId, currentPage ] )
+			clearInterval( interval.current );
+			clearTimeout( timeout.current );
+		};
+	}, [ deviceType, editorMode, editedSitePostId, currentPage ] );
 
 	useMemo( () => {
-		const iframeEl = document.querySelector( `iframe[name="editor-canvas"]` )
+		const iframeEl = document.querySelector(
+			`iframe[name="editor-canvas"]`
+		);
 		if ( iframeEl ) {
-			setEditorDom( iframeEl.contentDocument.body )
+			setEditorDom( iframeEl.contentDocument.body );
 		} else {
-			setEditorDom( document.querySelector( `.editor-styles-wrapper` ) )
+			setEditorDom( document.querySelector( `.editor-styles-wrapper` ) );
 		}
-	}, [ iframeForceUpdate, deviceType ] )
+	}, [ iframeForceUpdate, deviceType ] );
 
 	// Need to run dispatch in a useEffect or else we will get a React error
 	// about updating a component while rendering another:
 	// @see https://stackoverflow.com/questions/62336340/cannot-update-a-component-while-rendering-a-different-component-warning
 	useEffect( () => {
 		if ( editorDom ) {
-			dispatch( 'gutenway/editor-dom' ).updateEditorDom( editorDom )
+			dispatch( 'gutenway/editor-dom' ).updateEditorDom( editorDom );
 		}
-	}, [ editorDom ] )
+	}, [ editorDom ] );
 
 	// Don't render anything.
-	return null
-}
+	return null;
+};
 
-
-registerPlugin( 'gutenway-editor-dom', { render: EditorDom } )
+registerPlugin( 'gutenway-editor-dom', { render: EditorDom } );

@@ -14,6 +14,8 @@ module.exports = {
 	...defaultConfig,
 	entry: {
 		blocks: './src/blocks.js',
+		admin: './src/admin.js',
+		dashboard: './src/dashboard.js',
 	},
 	output: {
 		path: path.resolve( __dirname, 'build/' ),
@@ -25,5 +27,12 @@ module.exports = {
 			'@': path.resolve( __dirname, './src' ),
 			'@blocks': path.resolve( __dirname, './blocks' ),
 		},
+		extensions: [
+			'.ts',
+			'.tsx',
+			...( defaultConfig.resolve
+				? defaultConfig.resolve.extensions || [ '.js', '.jsx' ]
+				: [] ),
+		],
 	},
 };

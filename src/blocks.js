@@ -1,13 +1,18 @@
 /**
  * External dependencies
  */
-import { getBlockType, registerBlockType, getCategories, setCategories } from '@wordpress/blocks';
+import {
+	getBlockType,
+	registerBlockType,
+	getCategories,
+	setCategories,
+} from '@wordpress/blocks';
 import { __ } from '@wordpress/i18n';
 
 /**
  * Internal dependencies
  */
-import './block-editor'
+import './block-editor';
 import './blocks.scss';
 
 setCategories( [

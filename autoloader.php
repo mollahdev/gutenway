@@ -1,5 +1,4 @@
 <?php
-namespace Gutenway;
 defined( 'ABSPATH' ) || exit;
 /**
  * PSR4 Autoloader implementation that includes the optional

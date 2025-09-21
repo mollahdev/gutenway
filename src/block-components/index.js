@@ -1,1 +1,1 @@
-export * from './block-div'
+export * from './block-div';

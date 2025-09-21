@@ -1,18 +1,15 @@
-
 /**
  * External dependencies
  */
-import {
-	useContext, useState, useEffect,
-} from '@wordpress/element'
-import { useSelect } from '@wordpress/data'
+import { useContext, useState, useEffect } from '@wordpress/element';
+import { useSelect } from '@wordpress/data';
 
 /**
  * Internal dependencies
-*/
-import { QueryLoopContext } from '@/higher-order'
+ */
+import { QueryLoopContext } from '@/higher-order';
 
-export const QUERY_LOOP_UNIQUEID_INSTANCES = {}
+export const QUERY_LOOP_UNIQUEID_INSTANCES = {};
 
 /**
  * Function which determines whether the block
@@ -27,27 +24,38 @@ export const QUERY_LOOP_UNIQUEID_INSTANCES = {}
  */
 const isBlockAQueryLoopPreview = ( postContext, currentPostId ) => {
 	// Compare if the consumed context's postId is not equal to the current post id.
-	return postContext?.postId && currentPostId && postContext?.postId !== currentPostId
-}
+	return (
+		postContext?.postId &&
+		currentPostId &&
+		postContext?.postId !== currentPostId
+	);
+};
 
-export const useQueryLoopInstanceId = uniqueId => {
-	const postContext = useContext( QueryLoopContext )
-	const currentPostId = useSelect( select => select( 'core/editor' )?.getCurrentPostId() )
-	const [ instanceId, setInstanceId ] = useState( 0 )
+export const useQueryLoopInstanceId = ( uniqueId ) => {
+	const postContext = useContext( QueryLoopContext );
+	const currentPostId = useSelect( ( select ) =>
+		select( 'core/editor' )?.getCurrentPostId()
+	);
+	const [ instanceId, setInstanceId ] = useState( 0 );
 
 	useEffect( () => {
 		if ( isBlockAQueryLoopPreview( postContext, currentPostId ) ) {
 			if ( uniqueId ) {
-				const newInstanceIds = ( QUERY_LOOP_UNIQUEID_INSTANCES[ uniqueId ] || [] )
+				const newInstanceIds =
+					QUERY_LOOP_UNIQUEID_INSTANCES[ uniqueId ] || [];
 				if ( ! newInstanceIds.includes( postContext?.postId ) ) {
-					newInstanceIds.push( postContext?.postId )
+					newInstanceIds.push( postContext?.postId );
 				}
 
-				QUERY_LOOP_UNIQUEID_INSTANCES[ uniqueId ] = newInstanceIds
-				setInstanceId( newInstanceIds.findIndex( id => id === postContext?.postId ) + 1 )
+				QUERY_LOOP_UNIQUEID_INSTANCES[ uniqueId ] = newInstanceIds;
+				setInstanceId(
+					newInstanceIds.findIndex(
+						( id ) => id === postContext?.postId
+					) + 1
+				);
 			}
 		}
-	}, [ postContext?.id, currentPostId, uniqueId ] )
+	}, [ postContext?.id, currentPostId, uniqueId ] );
 
-	return instanceId
-}
+	return instanceId;
+};

@@ -1,1 +1,1 @@
-export * from './inspector-tabs'
+export * from './inspector-tabs';

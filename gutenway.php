@@ -7,11 +7,6 @@ Author: Gutenway
 Version: 1.0.0
 Author URI: https://github.com/Gutenway
 */
-
-namespace Gutenway;
-use Gutenway\App\Scripts;
-use Gutenway\Blocks\RegisterBlocks;
-
 class Gutenway {
 
     public function __construct()
@@ -49,14 +44,14 @@ class Gutenway {
     }
 
     private function boot() {
-        
         add_theme_support( 'editor-styles' );
 		add_theme_support( 'wp-block-styles' );
         add_theme_support( 'align-wide' );
         add_theme_support( 'responsive-embeds' );
-        
-        new Scripts();
-        new RegisterBlocks();
+
+        \Gutenway\Blocks\RegisterBlocks::getInstance();
+        \Gutenway\App\Admin\Admin::getInstance();
+        \Gutenway\Modules\HeaderFooter\HeaderFooter::getInstance();
     }
 
     private function initAutoLoader() 
@@ -64,8 +59,10 @@ class Gutenway {
         $this::require('autoloader.php');
         $loader = new AutoLoader();
         $loader->register();
-        $loader->addNamespace( 'Gutenway\Blocks', $this::path('blocks') );     
         $loader->addNamespace( 'Gutenway\App', $this::path('app') );
+        $loader->addNamespace( 'Gutenway\Admin', $this::path('app/Admin') );
+        $loader->addNamespace( 'Gutenway\Blocks', $this::path('blocks') );
+        $loader->addNamespace( 'Gutenway\Modules\HeaderFooter', $this::path('modules/HeaderFooter') );
     }
 }
 
